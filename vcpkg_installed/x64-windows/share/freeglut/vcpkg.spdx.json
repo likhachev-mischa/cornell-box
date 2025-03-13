@@ -3,13 +3,13 @@
   "spdxVersion": "SPDX-2.2",
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
-  "documentNamespace": "https://spdx.org/spdxdocs/freeglut-x64-windows-3.4.0#3-f714b38d-cab6-412c-8e5c-5bed00832ee5",
-  "name": "freeglut:x64-windows@3.4.0#3 82356c730dd88b60aa9e17039f3b1ef9d57cff8a2b9897a690162032f04d8223",
+  "documentNamespace": "https://spdx.org/spdxdocs/freeglut-x64-windows-3.4.0#3-e4e31b13-355c-4a98-a585-044f206136ce",
+  "name": "freeglut:x64-windows@3.4.0#3 0d084f59ea2da802f3d04e15cdb36f6f9e8f2ac69c2ae25dc909237c1d63dc81",
   "creationInfo": {
     "creators": [
       "Tool: vcpkg-2024-11-12-eb492805e92a2c14a230f5c3deb3e89f6771c321"
     ],
-    "created": "2025-03-08T17:02:52Z"
+    "created": "2025-03-13T10:51:13Z"
   },
   "relationships": [
     {
@@ -139,7 +139,7 @@
     {
       "name": "freeglut:x64-windows",
       "SPDXID": "SPDXRef-binary",
-      "versionInfo": "82356c730dd88b60aa9e17039f3b1ef9d57cff8a2b9897a690162032f04d8223",
+      "versionInfo": "0d084f59ea2da802f3d04e15cdb36f6f9e8f2ac69c2ae25dc909237c1d63dc81",
       "downloadLocation": "NONE",
       "licenseConcluded": "NOASSERTION",
       "licenseDeclared": "NOASSERTION",

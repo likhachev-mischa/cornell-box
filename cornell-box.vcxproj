@@ -143,6 +143,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="model_geometry.cpp" />
+    <ClCompile Include="obj_loader.cpp" />
     <ClCompile Include="view.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="model_geometry.h" />
+    <ClInclude Include="obj_loader.h" />
     <ClInclude Include="view.h" />
   </ItemGroup>
   <ItemGroup>

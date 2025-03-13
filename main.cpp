@@ -8,10 +8,10 @@ int main(int argc, char* argv[]) {
     SDL_Window* main_window;
     init(main_window);
 
-    Model model;
+    Model model("cornell_room.obj",glm::vec3(1.0f,0.0f,0.0f));
     Camera camera;
     View view(model,camera);
-    Control control(model,view);
+    Control control(view);
 
 
     const double dt = 10;

@@ -1,0 +1,9 @@
+Package: soil
+Version: 2021-04-22
+Port-Version: 2
+Depends: vcpkg-cmake
+Architecture: x64-windows
+Multi-Arch: same
+Abi: f5a4fbd90138ec82c112ea4b60b33109e756447b83a61fa0907d206ce314c22c
+Description: SOIL is a tiny C library used primarily for uploading textures into OpenGL.
+Status: install ok installed

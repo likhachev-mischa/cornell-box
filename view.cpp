@@ -34,10 +34,11 @@ void CheckLinkStatus(GLuint& shader_program)
 		std::cout << "shader linker error in View constructor" << std::endl;
 		char buffer[512];
 		glGetProgramInfoLog(shader_program, 512, nullptr, buffer);
+		std::cout << buffer << std::endl;
 	}
 }
 
-View::View(Model& model,Camera& camera) :model(model),camera(camera) {
+View::View(Model& model, Camera& camera) : model(model), camera(camera) {
     glEnable(GL_DEPTH_TEST);
 
     vertex_shader = LoadShader(std::string("./vertex.vert"), GL_VERTEX_SHADER);
@@ -78,10 +79,13 @@ void View::render(SDL_Window* window) {
     glUniform3fv(light_position_uniform_attribute, 1, &light_position[0]);
     glUniform3fv(camera_position_uniform_attribute, 1, &camera.position[0]);
 
-    glDrawArrays(GL_TRIANGLES, 0, (*scene_loader).number_of_vertices_in_scene);
-
+    // Bind the VAO before drawing
+    glBindVertexArray(scene_loader->vertex_array_object);
+    
+    // Draw using vertex indices with glDrawElements
+    glDrawElements(GL_TRIANGLES, model.indices.size(), GL_UNSIGNED_INT, 0);
+    
     glFlush();
-
     SDL_GL_SwapWindow(window);
 }
 
@@ -90,64 +94,55 @@ View::~View()
     delete scene_loader;
 }
 
-void View::SceneLoader::loadAllRectangles(){
-    loadRectangle(view.model.scene_floor);
-    loadRectangle(view.model.scene_ceiling);
-    loadRectangle(view.model.scene_back_wall);
-    loadRectangle(view.model.scene_right_wall);
-    loadRectangle(view.model.scene_left_wall);
-    loadBlock(view.model.tall_block);
-    loadBlock(view.model.short_block);
-}
-
-void View::SceneLoader::loadBlock(const Block& block){
-    for (size_t i = 0; i < block.block_sides.size(); i++){
-        loadRectangle(block.block_sides[i]);
+void View::SceneLoader::loadModel(const Model& model) {
+    // For each vertex in the model
+    for (size_t i = 0; i < model.vertices.size(); i++) {
+        // Position (xyz)
+        model_data_vector.push_back(model.vertices[i].x);
+        model_data_vector.push_back(model.vertices[i].y);
+        model_data_vector.push_back(model.vertices[i].z);
+        
+        // Color (rgb)
+        model_data_vector.push_back(model.color.r);
+        model_data_vector.push_back(model.color.g);
+        model_data_vector.push_back(model.color.b);
+        
+        // Normal (xyz)
+        if (i < model.normals.size()) {
+            model_data_vector.push_back(model.normals[i].x);
+            model_data_vector.push_back(model.normals[i].y);
+            model_data_vector.push_back(model.normals[i].z);
+        } else {
+            // Default normal if not provided
+            model_data_vector.push_back(0.0f);
+            model_data_vector.push_back(1.0f);
+            model_data_vector.push_back(0.0f);
+        }
     }
 }
 
-void View::SceneLoader::loadRectangle(const Rectangle& rectangle) {
-    glm::vec3 rectangle_normal = glm::normalize(glm::cross(
-        (rectangle[0] - rectangle[1]), rectangle[0] - rectangle[2]));
-    loadRectangleVertex(0, rectangle, rectangle_normal);
-    loadRectangleVertex(1, rectangle, rectangle_normal);
-    loadRectangleVertex(2, rectangle, rectangle_normal);
-    loadRectangleVertex(0, rectangle, rectangle_normal);
-    loadRectangleVertex(2, rectangle, rectangle_normal);
-    loadRectangleVertex(3, rectangle, rectangle_normal);
-}
-
-void View::SceneLoader::loadRectangleVertex(const int& vertex_number, const Rectangle& rectangle,
-    const glm::vec3& vertex_normal) {
-    for (size_t j = 0; j < 3; j++) {
-        rectangle_data_vector.push_back(rectangle[vertex_number][j]);
-    }
-    for (size_t i = 0; i < 3; i++) {
-        rectangle_data_vector.push_back(rectangle.RGB_color[i]);
-    }
-    for (size_t i = 0; i < 3; i++) {
-        rectangle_data_vector.push_back(vertex_normal[i]);
-    }
-}
-View::SceneLoader::SceneLoader(View& view) :view(view) {
-    loadAllRectangles();
-    float* rectangle_data_array = new float[rectangle_data_vector.size()];
-    for (size_t i = 0; i < rectangle_data_vector.size(); i++){
-        rectangle_data_array[i] = rectangle_data_vector[i];
-    }
- 
-    number_of_vertices_in_scene = rectangle_data_vector.size() / 2; //half of the data is color data
- 
-    GLuint vertex_array_object;
+void View::SceneLoader::setupBuffers() {
+    // Generate a vertex array object
     glGenVertexArrays(1, &vertex_array_object);
     glBindVertexArray(vertex_array_object);
-     
-    GLuint rectangle_buffer;
-    glGenBuffers(1, &rectangle_buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, rectangle_buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*rectangle_data_vector.size(), rectangle_data_array, GL_STATIC_DRAW);
- 
-    delete[] rectangle_data_array;
+    
+    // Create and fill the vertex buffer
+    glGenBuffers(1, &vertex_buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+    glBufferData(GL_ARRAY_BUFFER, 
+                 sizeof(float) * model_data_vector.size(), 
+                 model_data_vector.data(), 
+                 GL_STATIC_DRAW);
+    
+    // Create and fill the element buffer object (EBO)
+    glGenBuffers(1, &element_buffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, element_buffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                 sizeof(unsigned int) * view.model.indices.size(),
+                 view.model.indices.data(),
+                 GL_STATIC_DRAW);
+    
+    // Set up vertex attribute pointers
     GLint vertex_position_attribute = glGetAttribLocation(view.shader_program, "vertex_position");
     glVertexAttribPointer(vertex_position_attribute, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), 0);
     glEnableVertexAttribArray(vertex_position_attribute);
@@ -161,4 +156,9 @@ View::SceneLoader::SceneLoader(View& view) :view(view) {
     glVertexAttribPointer(vertex_normal_attribute, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float),
         (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(vertex_normal_attribute);
+}
+
+View::SceneLoader::SceneLoader(View& view) :view(view) {
+    loadModel(view.model);
+    setupBuffers();
 }

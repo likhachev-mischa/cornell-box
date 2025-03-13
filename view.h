@@ -6,6 +6,8 @@
 #include <gl/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <vector>
+
 #include "model.h"
 #include "camera.h"
 
@@ -31,20 +33,21 @@ public:
     glm::vec3 light_position = glm::vec3(250.0f, 250.0f, 250.0f);
 
     Camera& camera;
-    View(Model& model,Camera& camera);
+    View(Model& model, Camera& camera);
     void render(SDL_Window* window);
     ~View();
 private:
     class SceneLoader {
     private:
         View& view;
-        std::vector<float> rectangle_data_vector;
-        void loadAllRectangles();
-        void loadBlock(const Block& block);
-        void loadRectangle(const Rectangle& rectangle);
-		void loadRectangleVertex(const int& vertex_number, const Rectangle& rectangle, const glm::vec3& vertex_normal);
+        std::vector<float> model_data_vector;
+        void loadModel(const Model& model);
+        void setupBuffers();
     public:
         GLuint number_of_vertices_in_scene;
+        GLuint vertex_array_object;
+        GLuint vertex_buffer;
+        GLuint element_buffer;
         SceneLoader(View& view);
     };
     SceneLoader* scene_loader; 
