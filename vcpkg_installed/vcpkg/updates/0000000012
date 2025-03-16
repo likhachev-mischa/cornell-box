@@ -1,9 +1,0 @@
-Package: freeglut
-Version: 3.4.0
-Port-Version: 3
-Depends: opengl, vcpkg-cmake, vcpkg-cmake-config
-Architecture: x64-windows
-Multi-Arch: same
-Abi: 82356c730dd88b60aa9e17039f3b1ef9d57cff8a2b9897a690162032f04d8223
-Description: A free OpenGL utility toolkit, the open-sourced alternative to the GLUT library.
-Status: purge ok half-installed
