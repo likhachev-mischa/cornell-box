@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
 	double lastTime = SDL_GetTicks();
 	double currentTime;
 
-		float radius = 40.0f; // Orbit radius
+	float radius = 40.0f; // Orbit radius
 	while (true)
 	{
 		currentTime = SDL_GetTicks();
