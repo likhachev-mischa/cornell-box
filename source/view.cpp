@@ -69,6 +69,7 @@ View::View(Model& model, Camera& camera) : model(model), camera(camera) {
 	use_texture_uniform_attribute = glGetUniformLocation(shader_program, "use_texture");
 	material_shininess_uniform_attribute = glGetUniformLocation(shader_program, "material_shininess");
 	material_specular_uniform_attribute = glGetUniformLocation(shader_program, "material_specular");
+    ambient_value_uniform_attribute = glGetUniformLocation(shader_program, "ambient_value"); // Get location for ambient_value
 
 	scene_loader = new SceneLoader(*this);
 
@@ -99,6 +100,7 @@ void View::render() {
     // Set material properties uniforms
     glUniform1f(material_shininess_uniform_attribute, model.material.shininess);
     glUniform3fv(material_specular_uniform_attribute, 1, &model.material.specular_color[0]);
+    glUniform1f(ambient_value_uniform_attribute, model.ambient_value); // Set ambient_value uniform
 
     // Set texture uniforms
     bool has_texture = model.hasTexture() && model.material.diffuse_texture_id != 0;

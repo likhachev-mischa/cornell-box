@@ -114,7 +114,7 @@ Architecture: x64-windows
 Multi-Arch: same
 Abi: f5a4fbd90138ec82c112ea4b60b33109e756447b83a61fa0907d206ce314c22c
 Description: SOIL is a tiny C library used primarily for uploading textures into OpenGL.
-Status: install ok installed
+Status: purge ok not-installed
 
 Package: soil2
 Version: 1.3.0

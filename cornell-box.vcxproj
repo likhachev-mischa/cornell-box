@@ -138,7 +138,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="example.mtl" />
-    <None Include="model.cpp (partial update)" />
     <None Include="shaders\fragment.frag" />
     <None Include="shaders\vertex.vert" />
     <None Include="vcpkg.json" />

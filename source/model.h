@@ -20,23 +20,21 @@ public:
     
     // Material for the model
     Material material;
-    std::string material_path;
 
     // Background color (for scene settings)
     std::vector<double> background_color;
+
+    // Ambient value for the model
+    float ambient_value;
 
     // Default constructor
     Model();
     
     // Constructor with path to .obj file
-    Model(const std::string& obj_path, const glm::vec3& color = glm::vec3(1.0f, 1.0f, 1.0f));
-    Model(const std::string& obj_path, const std::string& material_path);
+    Model(const std::string& obj_path, const glm::vec3& color = glm::vec3(1.0f, 1.0f, 1.0f), float ambient = 0.1f);
     
     // Load model from .obj file
-    bool loadFromOBJ(const std::string& path);
-    
-    // Load material from .mtl file
-    bool loadMaterial(const std::string& path);
+    bool loadModel(const std::string& path);
     
     // Check if model has texture coordinates
     bool hasTextureCoords() const;

@@ -1,0 +1,7 @@
+Package: vcpkg-cmake-get-vars
+Version: 2024-09-22
+Depends: vcpkg-cmake
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 9c5c2f24793904a584cbba75f861a854fc4abd13c59fab9b7817c9b742e83345
+Status: install ok installed

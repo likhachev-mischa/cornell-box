@@ -55,6 +55,7 @@ private:
     GLuint material_specular_uniform_attribute;
     GLuint model_matrix_uniform_attribute;
     GLuint mvp_uniform_attribute;
+    GLuint ambient_value_uniform_attribute; // Add uniform location for ambient_value
     
     // Light count uniform locations
     GLuint directional_light_count_uniform;

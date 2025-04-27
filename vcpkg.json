@@ -9,6 +9,7 @@
     "glad",
     "glew",
     "freeglut",
-    "soil2"
+    "soil2",
+    "assimp"
   ]
 }

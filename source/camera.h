@@ -6,8 +6,8 @@
 class Camera {
     float field_of_view = 1.57f;
     float aspect_ratio = 4.0f / 3.0f;
-    float near_plane = 30.f;
-    float far_plane = 3000.0f;
+    float near_plane = 0.1f;
+    float far_plane = 400.0f;
 public:
     float pitch = -1.f;
     float yaw = 3.14f;

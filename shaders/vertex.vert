@@ -15,6 +15,9 @@ out vec3 fragment_position;
 // Texture coordinates
 in vec2 texture_coord_in;
 out vec2 texture_coord;
+
+//in float ambient_value;
+//out float ambient_out;
  
 void main(){    
     gl_Position = mvp * vec4(vertex_position, 1);
@@ -27,4 +30,6 @@ void main(){
     
     fragment_color = color_input;
     texture_coord = texture_coord_in;
+
+    //ambient_out= ambient_value;
 }

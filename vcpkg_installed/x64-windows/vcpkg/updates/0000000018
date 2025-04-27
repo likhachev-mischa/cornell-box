@@ -1,0 +1,8 @@
+Package: jhasse-poly2tri
+Version: 2023-12-27
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 5ecdf443d0f49cfd01a6f24869515eeb00cbb3943aae31179c6b6622939a6ec6
+Description: Sweep-line algorithm for constrained Delaunay triangulation
+Status: install ok half-installed

@@ -3,6 +3,7 @@
 in vec3 fragment_color;
 in vec3 fragment_position;
 in vec3 vertex_normal;
+uniform float ambient_value;
 in vec2 texture_coord;
 
 // Light structure definitions
@@ -137,7 +138,7 @@ void main(){
     }
     
     // Ambient light component (constant)
-    vec3 ambient = 0.2 * material_color;
+   vec3 ambient = ambient_value* material_color;
  
     // Normalize the normal vector
     vec3 normal = normalize(vertex_normal);

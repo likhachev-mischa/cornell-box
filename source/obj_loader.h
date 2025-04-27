@@ -3,19 +3,23 @@
 #include <string>
 #include <vector>
 #include <glm/glm.hpp>
-#include "material.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
-// Class for loading .obj model files
+// Forward declaration
+class Model;
+
 class ObjLoader {
 public:
-    // Load a model from a .obj file
-    static bool loadObj(const std::string& path, 
-                        std::vector<glm::vec3>& out_vertices,
-                        std::vector<glm::vec3>& out_normals,
-                        std::vector<glm::vec2>& out_uvs,
-                        std::vector<unsigned int>& out_indices,
-                        std::string& out_material_path);
-                        
-    // Load materials from .mtl file
-    static bool loadMtl(const std::string& path, Material& material);
+    // Updated function to load model using Assimp
+    static bool loadModelWithAssimp(const std::string& path, Model& model);
+
+private:
+    // Helper function to process Assimp nodes recursively
+    static void processNode(aiNode* node, const aiScene* scene, Model& model);
+    // Helper function to process Assimp meshes
+    static void processMesh(aiMesh* mesh, const aiScene* scene, Model& model);
+    // Helper function to load materials (textures)
+    static void loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName, Model& model);
 };
